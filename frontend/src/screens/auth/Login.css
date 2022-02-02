@@ -1,0 +1,6 @@
+.background-login {
+    background-image: url('/public/img/login_player_black.png');
+    background-size: 'auto 100%';
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+}

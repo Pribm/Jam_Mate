@@ -1,0 +1,27 @@
+#upper_body {
+    position: relative;
+    transform: rotateZ('50deg');
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+}
+
+#right_foot{
+    transform-origin: 20% -35%;
+    transform-box: fill-box;
+}
+
+#Head{
+    transform-origin: 50% 80%;
+    transform-box: fill-box;
+}
+
+#full_left_arm{
+    transform-origin: 50% 50%;
+    transform-box: fill-box;
+}
+
+#left_arm-2{
+    transform-origin: 10% 10%;
+    transform-box: fill-box;
+}
+
