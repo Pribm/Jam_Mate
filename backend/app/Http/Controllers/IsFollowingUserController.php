@@ -18,12 +18,13 @@ class IsFollowingUserController extends Controller
 
     public function index()
     {
-        $following = IsFollowingUser::with('following')->where('user_id', $this->user->id)->simplePaginate();
-        $following_total = count(IsFollowingUser::with('following')->where('user_id', $this->user->id)->get());
+        $following = IsFollowingUser::with('user', 'posts')->where('user_id', $this->user->id)->simplePaginate();
+        $following_total = count(IsFollowingUser::with('user')->where('user_id', $this->user->id)->get());
 
         $following->transform(function ($f){
-            return $f->getRelations()['following'];
+            return $f->getRelations()['user'];
         });
+
         return ['total_following' => $following_total, $following];
     }
 
@@ -40,19 +41,29 @@ class IsFollowingUserController extends Controller
         $following = IsFollowingUser::create(['user_id' => $this->user->id, 'is_following' => $request->followed_user_id]);
 
         if($following->id){
-            return response()->json($following->with('following')->first()->getRelations());
+            return response()->json(IsFollowingUser::with('user')->find($following->id)->getRelations());
         }
         return response()->json(['error' => 'this user could not be followed']);
     }
 
     public function show($id)
     {
-        $followed_user = IsFollowingUser::with('following')->find($id)->getRelations();
-        return $followed_user;
+        $followed_user = IsFollowingUser::where('user_id', $this->user->id)->where('is_following', $id)->with('user')->first();
+        if($followed_user){
+            return $followed_user->getRelations();
+        }
+        return response()->json(['error' => 'you are not following this user']);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
-
+        $followed_user = IsFollowingUser::where('user_id', $this->user->id)->where('is_following',$id)->first();
+        if($followed_user){
+            if($followed_user->delete()){
+                return response()->json(['success' => 'The follower was deleted successfully', 'follower' => $id]);
+            }
+            return response()->json(['error' => "there is something wrong with your request"]);
+        }
+        return response()->json(['error' => "you couldn't delete this follower"]);
     }
 }

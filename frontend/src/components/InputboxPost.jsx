@@ -15,14 +15,13 @@ export default function InputboxPost() {
   const data = useSelector(state => state.PostReducer.post)
 
 
-  const [isLoading, setLoading] = React.useState(true)
   const [tempUploadThumbnail, setTempUploadThumnail] = React.useState(null)
   const [progress, setprogress] = React.useState(null)
 
   const [updating, setUpdating] = React.useState(false)
 
   React.useEffect(() => {
-    dispatch(store()).then(res => res && setLoading(false))
+    dispatch(store())
   }, [])
 
   const songButton = React.useRef(null)
@@ -57,7 +56,6 @@ export default function InputboxPost() {
   }
 
   return (
-    !isLoading &&
     <Paper className='bg-dark position-relative overflow-hidden px-2 pt-2' elevation={6}>
       <InputBase
         fullWidth

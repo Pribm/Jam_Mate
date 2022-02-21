@@ -9,20 +9,21 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import {logout} from '../../store/Actions/Auth.actions'
 
-import { loadUserData } from '../../store/Actions/User.action'
+import { loadUserData, show } from '../../store/Actions/User.action'
 import { thumbnailUrl } from '../../config/App'
+import NavbarIcon from './NavbarIcon'
+import { FaGuitar } from 'react-icons/fa'
 
 
-export default function MainNavbar({children}) {
+export default function MainNavbar({children, ...props}) {
 
     const user = useSelector(state => state.UserReducer.user)
-    const userInstruments = useSelector(state => state.UserReducer.instruments)
     
     const dispatch = useDispatch()
 
     const [headerTitle, setHeaderTitle] = React.useState('')
 
-    const navigation = useNavigate()
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         dispatch(loadUserData())
@@ -56,7 +57,7 @@ export default function MainNavbar({children}) {
             {Object.keys(user).length !== 0 && 
             <div className="navbar-overall-container">
                 <div className="vertical-navbar bg-primary text-white">
-                    <div className="logo-container mb-2 cursor-pointer" onClick={() => navigation('/show-profile', {replace: true, state: {user, userInstruments}})}>
+                    <div className="logo-container mb-2 cursor-pointer" onClick={() => dispatch(show(user.id)).then(res => navigate('/show-profile'))}>
                         {
                             (user.profile_image) ?
                             <div className='d-flex flex-column align-items-center text-center image-avatar'>
@@ -69,45 +70,44 @@ export default function MainNavbar({children}) {
                             </Avatar>
                         }
                     </div>
-                    <div className="navbar-icon"
-                        onClick={(e) => {
-                            setSelected(e)
-                            
-                            navigation('/feed', {replace: true})
-                        }}
-                    >
-                        <CgFeed size={35}/>
-                        <span className='ms-2'>Feed</span>
-                        <div className='markup'></div>
-                    </div>
 
-                    <div className="navbar-icon"
-                        onClick={(e) => {
-                            setSelected(e)
-                            navigation('/profile', {replace: true})
-                        }}
-                    >
-                        <CgProfile size={35}/>
-                        <span className='ms-2'>Edit User Profile</span>
-                        <div className='markup'></div>
-                    </div>
+                    <NavbarIcon
+                        icon={<CgFeed size={35}/>}
+                        label={'Feed'}
+                        route={'/feed'}
+                    />
 
 
-                    <div className="navbar-icon"
-                        onClick={() => logout()}
-                    >
-                        <RiShutDownLine size={30}/>
-                        <span className='ms-2'>Logout</span>
-                        <div className='markup'></div>
-                    </div>
+                    <NavbarIcon
+                        icon={<CgProfile size={35}/>}
+                        label={'Edit User Profile'}
+                        route={'/profile'}
+                    />
+
+                    
+                    <NavbarIcon
+                        icon={<FaGuitar size={35}/>}
+                        label={'Manage Bands'}
+                        route={'/band/create'}
+                    />
+
+
+                    <NavbarIcon
+                        icon={<RiShutDownLine size={30}/>}
+                        label={'Logout'}
+                        action={() => logout()}
+                    />
+
+                    
+
                 </div>
                 <div className="horizontal-navbar-container">
                     <div className='horizontal-navbar-header bg-dark d-none d-md-flex'>
                         <div className='ms-auto me-4'>
-                            <img src="img/JAM_MATE.png" alt="jam_mate_logo" height={'40px'} />
+                            <img src="/img/JAM_MATE.png" alt="jam_mate_logo" height={'40px'} />
                         </div>
                     </div>
-                    <div className='navigation-content scroll-y bg-dark-gradient'>
+                    <div className='navigation-content bg-dark-gradient' style={{height: 'calc(100vh - 60px)'}}>
                         {children}
                     </div>
                 </div>

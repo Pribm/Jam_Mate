@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IsFollowingUser;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -16,15 +18,25 @@ class UsersController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with(['country' => function($query){
-            $query->select(['name', 'id']);
-        }])
-        ->whereDoesntHave('isFollowing')
-        ->where('id', '!=', $this->user->id)
-        ->where('name', 'LIKE', '%'.$request->name.'%')
-        ->where('country_id', $request->country_id)
-        ;
+        $isFollowingArray = $this->user->isFollowing()->get('is_following');
 
-        return $users->simplePaginate($request->num_of_users_per_page ? $request->num_of_users_per_page : 5);
+        $isFollowingArray->transform(function($following){
+            return $following->is_following;
+        });
+
+        $users = User::whereNotIn('id', $isFollowingArray)->where('id','!=',$this->user->id)->paginate(6);
+
+        return $users;
+    }
+
+    public function show($id)
+    {
+        $selectedUser = User::with(['instruments', 'musicGenres', 'posts'])->find($id);
+
+        foreach ($selectedUser->posts as $post) {
+            $post->media = $post->media;
+        }
+
+        return $selectedUser;
     }
 }

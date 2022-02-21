@@ -7,8 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-use App\Models\LinkedSocialAccount;
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -28,6 +26,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot'
     ];
 
     /**
@@ -39,9 +38,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function findForPassport($username)
+    {
+        return $this->where('name', $username)->orWhere('email', $username)->first();
+    }
+
     public function socialAccounts()
     {
         return $this->hasMany(SocialAccount::class);
+    }
+
+    public function bands()
+    {
+        return $this->belongsToMany(Band::class,'band_user', 'user_id', 'band_id');
     }
 
     public function instruments()
@@ -66,7 +75,7 @@ class User extends Authenticatable
 
     public function isFollowing()
     {
-        return $this->hasMany(IsFollowingUser::class, 'is_following', 'id');
+        return $this->hasMany(IsFollowingUser::class, 'user_id', 'id');
     }
 
     public function followedBy()

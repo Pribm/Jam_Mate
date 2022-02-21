@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Http;
 class WebScrappers extends Controller
 {
     public function getGenres() {
-        
-        $response = Http::withToken(env('SPOTIFY_API_TOKEN'))->get('https://api.spotify.com/v1/recommendations/available-genre-seeds');
+
+        $response = Http::withOptions(['verify' => false])->withToken(env('SPOTIFY_API_TOKEN'))->get('https://api.spotify.com/v1/recommendations/available-genre-seeds');
         $genres = json_decode($response)->genres;
+
+
 
         if(Genres::count() === 0){
             foreach ($genres as $genre) {
@@ -46,18 +48,18 @@ class WebScrappers extends Controller
             $instWithoutTags = array_map(function ($string) {
                 return strip_tags($string);
             }, $arrayInst['instruments']);
-            
+
             $arrayInst['instruments'] = $instWithoutTags;
             return $arrayInst;
         }, $list);
 
-        
+
             if(Instruments::count() === 0 && InstrumentCategories::count() === 0){
                 foreach ($list as $key => $instCateg) {
                     InstrumentCategories::create([
                         'name' => html_entity_decode($instCateg['instrument_cattegory']),
                     ]);
-                    
+
                     foreach ($instCateg['instruments'] as $instrument) {
                         Instruments::create(['name' => html_entity_decode($instrument), 'instrument_category_id' => $key+1]);
                     }
@@ -65,12 +67,12 @@ class WebScrappers extends Controller
             }else{
                 return response()->json(['message' => 'The Instruments already seeded']);
             }
-        
+
     }
 
     public function seedCountries() {
-        $response = Http::get('https://restcountries.com/v3.1/all');
-        
+        $response = Http::withOptions(['verify' => false])->get('https://restcountries.com/v3.1/all');
+
         if(Country::count() === 0){
             foreach (json_decode($response) as $country) {
                 Country::create(['name' => $country->name->common]);
@@ -80,6 +82,6 @@ class WebScrappers extends Controller
 
         return 'The country database was already seeded';
     }
-    
+
 
 }

@@ -6,15 +6,20 @@ const initialState = {
     following: []
 };
 
-export default (state = initialState, { type, payload }) => {
+const FollowsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case actionTypes.CHANGE:
-      return { ...state, ...payload };
+      return { ...state, currentFollower: (payload === 'clear') ? {} : payload };
     
     case actionTypes.INDEX:
         return {...state, usersCanBefollowed: payload}
-
+    
+    case actionTypes.DELETE:
+        return {...state, following: state.following.filter(f => f.id !== payload)}
+        
     default:
       return state;
   }
 };
+
+export default FollowsReducer

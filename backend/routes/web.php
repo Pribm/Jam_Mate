@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/thumb/{path}/{img}', [ImageController::class, 'getThumbnail']);
 
-/*Route::prefix('webScrap')->group(function () {
+Route::prefix('webScrap')->group(function () {
     Route::get('/getGenres', [WebScrappers::class, 'getGenres']);
     Route::get('/getInstruments', [WebScrappers::class, 'getInstruments']);
     Route::get('/getCountries', [WebScrappers::class, 'seedCountries']);
-});*/
+});
 
 

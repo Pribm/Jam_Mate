@@ -46,7 +46,7 @@ class AppController extends Controller
 
         $following_total = count(IsFollowingUser::where('user_id', $this->user->id)->get());
         $total_followers = count(FollowedByUser::where('user_id', $this->user->id)->get());
-        $total_posts = count(Posts::where('user_id', $this->user->id)->get());
+        $total_posts = count(Posts::where('user_id', $this->user->id)->where('status','!=',0)->get());
 
         $user = ['user' => $this->user,
         'total_following' => $following_total,
@@ -112,12 +112,12 @@ class AppController extends Controller
 
     }
 
-    public function createUserMusicGenres($userGenresArray){
+    public function createUserMusicGenres($GenresArray){
         UserMusicGenres::where('user_id','=',$this->user->id)->delete();
-        foreach ($userGenresArray as $user) {
+        foreach ($GenresArray as $genre) {
             UserMusicGenres::create([
                 'user_id' => $this->user->id,
-                'genre_id' => $user['genre']['id']
+                'genre_id' => $genre['genre']['id']
             ]);
         }
     }
@@ -125,6 +125,7 @@ class AppController extends Controller
     public function uploadUserThumbnail(Request $request)
     {
         $file = $request->file('file');
+
         $newFileName = md5(uniqid(time())).strchr($file->getClientOriginalName(), '.');
 
         if($request->hasFile('file') && $file->isValid()){

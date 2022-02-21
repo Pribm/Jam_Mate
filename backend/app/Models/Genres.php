@@ -10,4 +10,9 @@ class Genres extends Model
     use HasFactory;
     protected $table = 'genres';
     protected $guarded = ['id'];
+
+    public function bands()
+    {
+        return $this->belongsToMany(Band::class, 'band_music_genres', 'band_id', 'genre_id');
+    }
 }

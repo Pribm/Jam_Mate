@@ -13,11 +13,7 @@ export const postThumbnailUrl = (post , width=400, height=400) => {
 
 export const thumbnailUrl = (user , width=400, height=400) => {
     if(user.profile_image_is_custom){
-        if(!user.profile_image.includes('https://')){
-            return `${URL.root}thumb/${user.id}/${user.profile_image}?s=thumbnail&w=${width}&h=${height}`
-        }else{
-            return user.profile_image
-        }
+        return `${URL.root}thumb/${user.id}/${user.profile_image}?s=thumbnail&w=${width}&h=${height}`
     }else{
         return user.profile_image
     }

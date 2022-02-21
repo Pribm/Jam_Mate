@@ -1,4 +1,4 @@
-import { Checkbox,Avatar, Chip, CircularProgress, Divider, Fab, FormControlLabel, Paper, TextField, Typography, Button } from '@mui/material'
+import { Divider, Paper, TextField, Typography, Button } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/lab'
 
 import React from 'react'
@@ -16,6 +16,7 @@ import CustomLoader from '../../../assets/svgs/CustomLoader'
 
 import InstrumentsSelection from './InstrumentsSelection'
 import ProfileInfoCard from './ProfileInfoCard';
+import GenresSelection from './GenresSelection';
 
 export default function Profile() {
 
@@ -30,6 +31,7 @@ export default function Profile() {
     
 
     const [selectedInstruments, setSelectedInstruments] = React.useState([])
+    const [selectedGenres, setSelectedGenres] = React.useState(userDataGlobal.genres)
 
     React.useEffect(() => {
         dispatch(fetchGenres())
@@ -47,7 +49,7 @@ export default function Profile() {
                 <div className="mx-5 mt-4">
 
                 <Button
-                onClick={() => dispatch(updateUser({user: userData.user, instruments: selectedInstruments}))}
+                onClick={() => dispatch(updateUser({user: userData.user, instruments: selectedInstruments, genres: selectedGenres}))}
                 className='shadow'
                 variant='primary-button' sx={{backgroundColor: 'white', position: 'fixed', bottom: '25px', right: '40px'}}>
                     <MdSave className='me-2'/>
@@ -125,12 +127,15 @@ export default function Profile() {
                                                     }}
                                                 >
                                                     {countries &&
-                                                        countries.map((country, i) => (
+                                                        <>
+                                                            <option>--------------------------</option>
+                                                        
+                                                        {countries.map((country, i) => (
                                                             <React.Fragment key={i}>
                                                                 <option value={country.id}>{country.name}</option>
                                                             </React.Fragment>
-                                                        ))
-
+                                                        ))}
+                                                        </>
                                                     }
                                                 </select>
                                             </div>
@@ -180,6 +185,11 @@ export default function Profile() {
                                     <Divider className='my-3'/>
                                     
                                     <InstrumentsSelection selectedInstruments={selectedInstruments} setSelectedInstruments={setSelectedInstruments}/>
+
+                                    <Divider className='my-3'/>
+                                    
+                                    <GenresSelection selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
+                                    
                                 </div>
                             </div>
                         </Paper>

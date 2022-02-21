@@ -23,9 +23,12 @@ class PostsController extends Controller
             return $posts;
         }
 
+        $followedIds = $this->user->isFollowing()->get();
 
-        $posts = Posts::with('user', 'media')->where('status','!=', 0)->orderBy('created_at', 'DESC')->paginate(20);
-        return $posts;
+        $followedIds->transform(function($id){
+            return $id->is_following;
+        });
+        return Posts::whereIn('user_id', $followedIds)->orWhere('user_id', $this->user->id)->with('user', 'media')->where('status','!=', 0)->orderBy('created_at', 'DESC')->paginate(20);
     }
 
     public function store()
@@ -66,7 +69,7 @@ class PostsController extends Controller
 
     public function destroy($id)
     {
-        if($this->user->id !== Posts::find($id)->user_id){
+        if($this->user->id !== Posts::where('id', $id)->first()->user_id){
             return response()->json(['error' => "you're unable to delete this post!"], 403);
         }
         $post = Posts::where('user_id', $this->user->id)->find($id);

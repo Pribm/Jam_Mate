@@ -5,13 +5,18 @@ const initialState = {
     selectedGenres: []
 }
 
-export default (state = initialState, { type, payload }) => {
+const GenresReducer = (state = initialState, { type, payload }) => {
     switch (type) {
 
-    case actionTypes.CHANGE:
+    case actionTypes.INDEX:
         return { ...state, genres: payload }
+    
+    case actionTypes.CHANGE:
+        return {...state, selectedGenres: payload}
 
     default:
         return state
     }
 }
+
+export default GenresReducer

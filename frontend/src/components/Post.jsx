@@ -11,6 +11,10 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import { destroy } from '../store/Actions/Post.action';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { show } from '../store/Actions/User.action';
+
+import { useNavigate } from 'react-router-dom';
+import { unfollow } from '../store/Actions/Follows.action';
 
 export default function Post(props) {
 
@@ -18,6 +22,8 @@ export default function Post(props) {
 
     const dispatch = useDispatch()
     const userData = useSelector(state => state.UserReducer.user)
+
+    const navigate = useNavigate()
 
     const [anchorEl, setAnchorEl] = React.useState(null)
     const [like, setLike] = React.useState(false)
@@ -37,7 +43,7 @@ export default function Post(props) {
             <Card elevation={9} className='p-4 mb-4 bg-dark text-white'>
                 <CardHeader
                     avatar={
-                        <Avatar alt='name' src={props.data && postThumbnailUrl({ profile_image: props.data.user.profile_image, user_id: props.data.user.id })}>
+                        <Avatar alt='name' src={props.data.user.profile_image && postThumbnailUrl({ profile_image: props.data.user.profile_image, user_id: props.data.user.id })}>
                             {props.data.user.name[0]}
                         </Avatar>
                     }
@@ -108,7 +114,11 @@ export default function Post(props) {
                         ]
                         :
                         [
-                            (<MenuItem key={1}>
+                            (<MenuItem key={1}
+                                onClick={() => {
+                                    dispatch(show(props.data.user.id)).then(res => navigate('/show-profile'))
+                                }}
+                            >
                                 <ListItemIcon>
                                     < RiProfileLine />
                                 </ListItemIcon>
@@ -116,7 +126,13 @@ export default function Post(props) {
                                     See Profile
                                 </ListItemText>
                             </MenuItem>),
-                            (<MenuItem key={2}>
+                            (<MenuItem
+                                key={2}
+                                onClick={() => {
+                                    dispatch(unfollow(props.data.user.id))
+                                    setAnchorEl(null)
+                                }}
+                                >
                                 <ListItemIcon>
                                     < RiUserUnfollowLine />
                                 </ListItemIcon>

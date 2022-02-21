@@ -22,8 +22,8 @@ class Posts extends Model
         return $this->hasMany(MediaFile::class, 'post_id');
     }
 
-    public function followedUsersPost()
+    public function following()
     {
-        return $this->belongsTo(Follow::class, 'user_id', 'followed_user_id');
+        return $this->belongsTo(IsFollowingUser::class, 'user_id', 'is_following');
     }
 }

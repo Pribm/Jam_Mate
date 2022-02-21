@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        Http::get(env('APP_URL').':8000/webScrap/getGenres');
+       Http::get(env('APP_URL').':8000/webScrap/getGenres');
+       Http::get(env('APP_URL').':8000/webScrap/getCountries');
         Http::get(env('APP_URL').':8000/webScrap/getInstruments');
     }
 }

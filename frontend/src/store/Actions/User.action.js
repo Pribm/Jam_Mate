@@ -4,6 +4,7 @@ import { changeLoading } from './Loading.action'
 
 export const actionTypes = {
     CHANGE : 'CHANGE_USER',
+    SHOW: 'SHOW_USER'
 }
 
 export const loadUserData = () => dispatch => {
@@ -18,6 +19,17 @@ export const changeUser = (payload) => ({
     type: actionTypes.CHANGE,
     payload
 })
+
+const showResponse = payload => ({
+    type: actionTypes.SHOW,
+    payload
+})
+
+export const show = id => dispatch => {
+    return HttpAuth.get('network/users/'+id).then(res => {
+        dispatch(showResponse(res.data))
+    })
+}
 
 export const updateUser = (data) => dispatch => {
     dispatch(changeLoading({open: true}))

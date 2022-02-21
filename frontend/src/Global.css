@@ -168,3 +168,28 @@ svg, g {
 .selected select {
     color: black;
 }
+
+.band-image-field {
+    background-color: #C11010;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: dashed #ccc 2px;
+    overflow: hidden;
+}
+
+.band-image-field:hover {
+    cursor: pointer;
+    background-color: #bbb;
+    border: dashed white 2px;
+}
+
+.band-image-field:hover svg {
+    color: white !important;
+}

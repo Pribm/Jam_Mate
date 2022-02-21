@@ -37,9 +37,8 @@ const theme = createTheme({
                     },
                     ":active": {
                         color: 'black'
-                    }
+                    },
                 },
-                
             },
         },
         MuiSelect: {

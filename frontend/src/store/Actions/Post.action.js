@@ -21,10 +21,12 @@ const indexResponse = (payload) => ({
 
 export const index = query => dispatch => {
   changeLoading({open: true})
-  HttpAuth.get(`posts?${new URLSearchParams(query)}`).then(res => {
+  return HttpAuth.get(`posts?${new URLSearchParams(query)}`).then(res => {
       if(typeof res !== 'undefined'){
+        if(res.status === 200){
           changeLoading({open: false})
           dispatch(indexResponse(res.data.data))
+        }
       }
   })
 }
@@ -41,8 +43,10 @@ export const updateResponse = (payload) => ({
 
 export const update = post => dispatch => {
   return HttpAuth.put('/posts/'+post.id, post).then(res => {
-    dispatch(updateResponse(res.data))
-    dispatch(store())
+    if(typeof res !== 'undefined'){
+      dispatch(updateResponse(res.data))
+      dispatch(store())
+    }
   })
 }
 

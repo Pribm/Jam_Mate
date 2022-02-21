@@ -7,6 +7,7 @@ import InstrumentsReducer from "./Instruments.reducer";
 import GenresReducer from "./Genres.reducer";
 import PostReducer from "./Post.reducer";
 import FollowsReducer from './Follows.reducer'
+import BandReducer from "./Band.Reducer";
 
 const rootReducer = combineReducers({
     LoadingReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     InstrumentsReducer,
     GenresReducer,
     PostReducer,
-    FollowsReducer
+    FollowsReducer,
+    BandReducer
 })
 
 export default rootReducer

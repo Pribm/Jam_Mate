@@ -5,13 +5,13 @@ const initialState = {
     posts: [],
 };
 
-export default (state = initialState, { type, payload }) => {
+const PostsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case actionTypes.CHANGE:
       return { ...state, post: (payload === 'clear') ? {} : {...state.post, ...payload} };
     
     case actionTypes.INDEX:
-    return { ...state, posts: [...state.posts, ...payload]};
+    return { ...state, posts: [...payload]};
 
     case actionTypes.UPDATE:
     return {...state, posts: [payload,...state.posts]}
@@ -23,3 +23,5 @@ export default (state = initialState, { type, payload }) => {
       return state;
   }
 };
+
+export default PostsReducer

@@ -2,6 +2,7 @@ import { HttpAuth } from "../../config/Http"
 
 export const actionTypes = {
     CHANGE: 'CHANGE_GENRES',
+    INDEX: 'INDEX_GENRES'
 }
 
 export const changeGenres = (payload) => ({
@@ -9,8 +10,14 @@ export const changeGenres = (payload) => ({
     payload
 })
 
+export const indexResponse = (payload) => ({
+  type: actionTypes.INDEX,
+  payload
+})
+
+
 export const index = () => dispatch => {
     return HttpAuth.get('app/genres').then(res => {
-        dispatch(changeGenres(res.data))
+        dispatch(indexResponse(res.data))
     })
 }

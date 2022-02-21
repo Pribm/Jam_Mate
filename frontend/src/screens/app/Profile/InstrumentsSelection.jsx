@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Chip, Divider } from '@mui/material'
-import { index, changeInstruments } from '../../../store/Actions/Instruments.action';
+import { index } from '../../../store/Actions/Instruments.action';
 
 const InstrumentsSelection = ({selectedInstruments, setSelectedInstruments}) => {
 

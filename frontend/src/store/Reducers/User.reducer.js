@@ -6,9 +6,12 @@ const initialState = {
     },
     instruments: [],
     genres: [],
+    selectedUser: {
+
+    }
 }
 
-export default (state = initialState, { type, payload }) => {
+const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
 
     case actionTypes.CHANGE:
@@ -19,8 +22,16 @@ export default (state = initialState, { type, payload }) => {
                 ...state.user, ...payload.user
             }
         }
+    
+    case actionTypes.SHOW:
+        return {
+            ...state,
+            selectedUser: payload
+        }
 
     default:
         return state
     }
 }
+
+export default userReducer

@@ -5,12 +5,13 @@ import SignUp from './screens/auth/SignUp';
 import React from 'react';
 
 import ProtectedRoutes from './components/ProtectedRoutes'
-import Home from './screens/home/Home';
-import Profile from './screens/home/Profile/EditProfile'
-import Feed from './screens/home/Feed';
-import UserProfile from './screens/home/Profile/UserProfile';
+import Home from './screens/app/Home';
+import Profile from './screens/app/Profile/EditProfile'
+import Feed from './screens/app/Feed';
+import UserProfile from './screens/app/Profile/UserProfile';
+import CreateBand from './screens/app/Bands/CreateBand';
 
-export default () => {
+const routes = (props) => {
 
     return (
         <BrowserRouter>
@@ -23,8 +24,14 @@ export default () => {
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/show-profile' element={<UserProfile/>}/>
                     <Route path='/feed' element={<Feed/>}/>
+
+                    <Route path='/band'>
+                        <Route path='create' element={<CreateBand/>}/>
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>
     )
 }
+
+export default routes
