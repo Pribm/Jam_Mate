@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "./static/css/main.e973c8b0.css",
-    "main.js": "./static/js/main.726d90b7.js",
-    "static/media/login_player_black.png": "./static/media/login_player_black.b5786fa1aac973461bfb.png",
-    "static/media/Outfit-Light.ttf": "./static/media/Outfit-Light.ad7b6650c095079e24e8.ttf",
-    "static/media/Outfit-Regular.ttf": "./static/media/Outfit-Regular.8422587fbc9bbf235e30.ttf",
-    "static/media/Outfit-Bold.ttf": "./static/media/Outfit-Bold.ad38dbc307742e89dcba.ttf",
-    "index.html": "./index.html",
-    "main.e973c8b0.css.map": "./static/css/main.e973c8b0.css.map",
-    "main.726d90b7.js.map": "./static/js/main.726d90b7.js.map"
+    "main.css": "/Jam_Mate/static/css/main.dd50e83b.css",
+    "main.js": "/Jam_Mate/static/js/main.0407af76.js",
+    "static/media/login_player_black.png": "/Jam_Mate/static/media/login_player_black.b5786fa1aac973461bfb.png",
+    "static/media/Outfit-Light.ttf": "/Jam_Mate/static/media/Outfit-Light.ad7b6650c095079e24e8.ttf",
+    "static/media/Outfit-Regular.ttf": "/Jam_Mate/static/media/Outfit-Regular.8422587fbc9bbf235e30.ttf",
+    "static/media/Outfit-Bold.ttf": "/Jam_Mate/static/media/Outfit-Bold.ad38dbc307742e89dcba.ttf",
+    "index.html": "/Jam_Mate/index.html",
+    "main.dd50e83b.css.map": "/Jam_Mate/static/css/main.dd50e83b.css.map",
+    "main.0407af76.js.map": "/Jam_Mate/static/js/main.0407af76.js.map"
   },
   "entrypoints": [
-    "static/css/main.e973c8b0.css",
-    "static/js/main.726d90b7.js"
+    "static/css/main.dd50e83b.css",
+    "static/js/main.0407af76.js"
   ]
 }
