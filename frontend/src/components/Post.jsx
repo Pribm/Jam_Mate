@@ -2,7 +2,7 @@ import { Avatar, ButtonBase, Card, CardContent, CardHeader, CardMedia, IconButto
 import React from 'react';
 import { MdDelete, MdMoreVert } from 'react-icons/md';
 import { RiProfileLine, RiUserUnfollowLine } from 'react-icons/ri';
-import { postThumbnailUrl } from '../config/App';
+import { postThumbnailUrl, URL } from '../config/App';
 import { format } from 'date-fns';
 
 import likeButtonAnimation from '../assets/svgs/Animations/like_button.json'
@@ -65,7 +65,7 @@ export default function Post(props) {
                         height='400px'
                         sx={{objectPosition: 'center center', objectFit: 'contain', backgroundColor: 'black'}}
                         component={'img'}
-                        image={`http://localhost:8000/thumb/${props.data.user.id}/${props.data.media[0].file_url}?s=media/posts/${props.data.id}`}   
+                        image={`${URL.root}thumb/${props.data.user.id}/${props.data.media[0].file_url}?s=media/posts/${props.data.id}`}   
                     />
                 }
                 

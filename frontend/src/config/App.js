@@ -1,4 +1,9 @@
 export const URL = {
+    root: 'https://jam-mate-backend.herokuapp.com/',
+    api: 'https://jam-mate-backend.herokuapp.com/api/',
+}
+
+export const DEV_URL = {
     root: 'http://localhost:8000/',
     api: 'http://localhost:8000/api/',
 }

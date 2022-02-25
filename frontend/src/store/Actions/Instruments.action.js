@@ -11,7 +11,7 @@ export const changeInstruments = (payload) => ({
 })
 
 export const index = data => dispatch => {
-    return HttpAuth.get('app/instruments/?'+new URLSearchParams(data)).then(res => {
+    return HttpAuth.get('app/instruments?'+new URLSearchParams(data)).then(res => {
         dispatch(changeInstruments(res.data))
     })
 }

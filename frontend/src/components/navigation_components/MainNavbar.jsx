@@ -45,12 +45,6 @@ export default function MainNavbar({children, ...props}) {
         buttons.forEach(button => button.addEventListener('click', materializeEffect))
     })
 
-    const setSelected = (e) => {
-        document.querySelectorAll('.navbar-icon').forEach(node => node.classList.remove('active'))
-        e.currentTarget.classList.add('active')
-        setHeaderTitle(e.currentTarget.innerText)
-    }
-
     return (
         
         <>
@@ -104,7 +98,7 @@ export default function MainNavbar({children, ...props}) {
                 <div className="horizontal-navbar-container">
                     <div className='horizontal-navbar-header bg-dark d-none d-md-flex'>
                         <div className='ms-auto me-4'>
-                            <img src="/img/JAM_MATE.png" alt="jam_mate_logo" height={'40px'} />
+                            <img src="./img/JAM_MATE.png" alt="jam_mate_logo" height={'40px'} />
                         </div>
                     </div>
                     <div className='navigation-content bg-dark-gradient' style={{height: 'calc(100vh - 60px)'}}>

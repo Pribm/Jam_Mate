@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route, BrowserRouter, HashRouter } from 'react-router-dom'
 import Login from './screens/auth/Login';
 import SignUp from './screens/auth/SignUp';
 
@@ -11,10 +11,10 @@ import Feed from './screens/app/Feed';
 import UserProfile from './screens/app/Profile/UserProfile';
 import CreateBand from './screens/app/Bands/CreateBand';
 
-const routes = (props) => {
+const routes = () => {
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route index path='/' element={<Login />} />
                 <Route path='/sign-up' element={<SignUp />} />
@@ -30,7 +30,7 @@ const routes = (props) => {
                     </Route>
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 
