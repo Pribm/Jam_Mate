@@ -27,6 +27,11 @@ class MediaController extends Controller
     public function store(Request $request)
     {  
         $file = $request->file('file');
+
+        if($file->getSize() > 2000000){
+            return response()->json(['error' => "Due to free storage limitations, you could only upload files below 2MB."], 400);
+        }
+
         $fileName = md5(uniqid(time())).'.'.$file->getClientOriginalExtension();
 
         if($request->post_id){

@@ -21,6 +21,7 @@ export default function UserProfile() {
 
     React.useEffect(() => {
         dispatch(show(user.id))
+        return () => dispatch(show('clear'))
     }, [])
 
   return (
@@ -102,17 +103,18 @@ export default function UserProfile() {
               </div>
               
               <div className="d-flex justify-content-center">
-                  <h4 className="text-gray">
-                      Band Foo |
-                  </h4>
-
-                  <h4 className="text-gray">
-                      Band Foo |
-                  </h4>
-
-                  <h4 className="text-gray">
-                      Band Foo |
-                  </h4>
+                  {
+                      user.bands.map((band, index, array) => (
+                          <React.Fragment key={index}>
+                              {
+                                (band.name !== null) &&
+                                  <h4 className='text-gray text-capitalize'>
+                                      &nbsp;{band.name} {(array.length - 1 !== index) ? ' | ' : ''}
+                                  </h4> 
+                              }
+                          </React.Fragment>
+                      ))
+                  }
               </div>
 
             {
@@ -131,7 +133,7 @@ export default function UserProfile() {
           </Paper>
 
           {
-            posts.map((post, i) => (
+            posts.data.map((post, i) => (
                 <React.Fragment key={i}>
                     {
                         post.status !== 0 && 

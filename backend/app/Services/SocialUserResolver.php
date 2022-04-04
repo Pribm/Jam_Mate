@@ -16,12 +16,13 @@ class SocialUserResolver implements SocialUserResolverInterface
      */
     public function resolveUserByProviderCredentials(string $provider, string $accessToken): ?Authenticatable
     {
-
+        
         $providerUser = null;
-
+        
         try {
             $providerUser = Socialite::driver($provider)->userFromToken($accessToken);
-
+            
+            
         } catch (Exception $exception) {
 
         }

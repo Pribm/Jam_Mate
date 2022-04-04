@@ -28,32 +28,18 @@ class AppController extends Controller
     }
 
     public function index(){
-
-        $userInstruments = $this->user->instruments()->get()->all();
-        $userGenres = $this->user->musicGenres()->get()->all();
-
-        $userGenres = array_map(function ($genre) {
-            return ['genre' => ['name' => $genre->name, 'id' => $genre->id]];
-        }, $userGenres);
-
-        $userInstruments = array_map(function ($instrument) {
-            return ['instrument' => ['name' => $instrument->name, 'id' => $instrument->id]];
-        }, $userInstruments);
-
-        if(!$this->user){
-            return response()->json(['error' => 'user not found']);
-        }
-
+        
+        $user =  $this->user->with(['musicGenres' , 'instruments', 'bands' => function($q){
+            $q->with('genres');
+        }])->find($this->user->id);
+        
         $following_total = count(IsFollowingUser::where('user_id', $this->user->id)->get());
         $total_followers = count(FollowedByUser::where('user_id', $this->user->id)->get());
         $total_posts = count(Posts::where('user_id', $this->user->id)->where('status','!=',0)->get());
 
-        $user = ['user' => $this->user,
-        'total_following' => $following_total,
-        'total_followers' => $total_followers,
-        'total_posts' => $total_posts,
-        'instruments' => $userInstruments,
-        'genres' => $userGenres];
+        $user->total_following = $following_total;
+        $user->total_followers = $total_followers;
+        $user->total_posts = $total_posts;
 
         return response()->json($user);
     }
@@ -74,7 +60,7 @@ class AppController extends Controller
         if($this->user->update($request->user)){
 
             $this->createUserInstruments($request->instruments);
-            $this->createUserMusicGenres($request->genres);
+            $this->createUserMusicGenres($request->music_genres);
             return $this->index();
         }
 
@@ -103,10 +89,10 @@ class AppController extends Controller
     public function createUserInstruments($userInstrumentsArray)
     {
         UserInstruments::where('user_id','=',$this->user->id)->delete();
-        foreach ($userInstrumentsArray as $user) {
+        foreach ($userInstrumentsArray as $instrument) {
             UserInstruments::create([
                 'user_id' => $this->user->id,
-                'instrument_id' => $user['instrument']['id']
+                'instrument_id' => $instrument['id']
             ]);
         }
 
@@ -117,7 +103,7 @@ class AppController extends Controller
         foreach ($GenresArray as $genre) {
             UserMusicGenres::create([
                 'user_id' => $this->user->id,
-                'genre_id' => $genre['genre']['id']
+                'genre_id' => $genre['id']
             ]);
         }
     }

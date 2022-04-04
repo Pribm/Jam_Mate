@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-exif": "*",
         "ext-gd": "^8.0",
-        "ext-exif":"*",
         "coderello/laravel-passport-social-grant": "^3.0",
         "doctrine/dbal": "^3.3",
         "fruitcake/laravel-cors": "^2.0.5",

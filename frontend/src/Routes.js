@@ -10,6 +10,8 @@ import Profile from './screens/app/Profile/EditProfile'
 import Feed from './screens/app/Feed';
 import UserProfile from './screens/app/Profile/UserProfile';
 import CreateBand from './screens/app/Bands/CreateBand';
+import ResetPassword from './screens/auth/ResetPassword';
+
 
 const routes = () => {
 
@@ -18,6 +20,7 @@ const routes = () => {
             <Routes>
                 <Route index path='/' element={<Login />} />
                 <Route path='/sign-up' element={<SignUp />} />
+                <Route path='/reset/:token' element={<ResetPassword />} />
                 <Route path='*' element={<Login />} /> {/* Make a not found route */}
                 <Route  element={<ProtectedRoutes/>}>
                     <Route path='/home' element={<Home/>}/>

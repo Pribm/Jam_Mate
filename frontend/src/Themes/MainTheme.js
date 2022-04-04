@@ -14,6 +14,16 @@ const theme = createTheme({
         },
     },
     components: {
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    textDecoration: 'none',
+                    '&:hover': {
+                        color: 'white'
+                    }
+                }
+            }
+        },
         MuiTextField: {
             defaultProps: {
                 size: 'small',

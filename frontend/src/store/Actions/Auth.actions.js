@@ -6,7 +6,8 @@ import { changeAlert } from './Alert.action'
 export const actionTypes = {
     CHANGE : 'AUTH_CHANGE',
     SUCCESS : 'AUTH_SUCCESS',
-    ERROR: 'AUTH_ERROR'
+    ERROR: 'AUTH_ERROR',
+    FORGOT_RESPONSE: 'FORGOT_EMAIL_RESPONSE'
 }
 
 export const change = (payload) => ({
@@ -54,12 +55,25 @@ export const login = (credentials) => dispatch => {
     let loginData = {}
     
         dispatch(changeLoading({open: true, msg: 'Loading user data...'}))
-        loginData = {
-            grant_type: 'password',
-            client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
-            client_secret: process.env.REACT_APP_OAUTH_CLIENT_SECRET,
-            username: credentials.email,
-            password: credentials.password
+        
+        if(credentials.access_token !== '' && credentials.provider !== ''){
+            loginData = {
+                grant_type: 'social',
+                client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
+                client_secret: process.env.REACT_APP_OAUTH_CLIENT_SECRET,
+                access_token: credentials.access_token,
+                provider: credentials.provider
+            }
+            
+            
+        }else{
+            loginData = {
+                grant_type: 'password',
+                client_id: process.env.REACT_APP_OAUTH_CLIENT_ID,
+                client_secret: process.env.REACT_APP_OAUTH_CLIENT_SECRET,
+                username: credentials.email,
+                password: credentials.password
+            }
         }
 
     return Http.post('oauth/token', loginData)
@@ -84,6 +98,28 @@ export const login = (credentials) => dispatch => {
                 }
             }
         })
+}
+
+export const forgotPassword = email => dispatch => {
+    return HttpAuth.post('forgot', {email}).then(res => {
+        if(res.status === 200){
+            dispatch(changeAlert({open:true, msg: res.data.message, class: 'success'}))
+        }else{
+            dispatch(error(res.data.errors))
+        }
+        return res.status
+    })
+}
+
+export const resetPassword = data => dispatch => {
+    return HttpAuth.post('reset', data).then(res => {
+        if(res.status === 200){
+            dispatch(changeAlert({open:true, msg: res.data.message, class: 'success'}))
+        }else{
+            dispatch(error(res.data.errors))
+        }
+        return res.status
+    })
 }
 
 

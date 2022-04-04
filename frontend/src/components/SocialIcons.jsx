@@ -1,12 +1,26 @@
 import React from 'react'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login'
-import { SocialIcon  } from 'react-social-icons'
-import { responseSocialLogin } from '../store/Actions/Auth.actions'
 import { useDispatch } from 'react-redux'
+import { SocialIcon  } from 'react-social-icons'
+import { login } from '../store/Actions/Auth.actions'
 
 const GoogleIcon = props => {
+
     const dispatch = useDispatch()
+    
+
+    const responseGoogle = (response) => {
+        let credentials = {
+            access_token: response.accessToken,
+            provider: response.wc.idpId
+        }
+
+        if(typeof response !== 'undefined'){
+            dispatch(login(credentials))
+        }
+    }
+
     return (
         <GoogleLogin
             clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -18,21 +32,21 @@ const GoogleIcon = props => {
                     style={{ height: '30px', width: '30px' }}
                 />
             )}
-            onSuccess={res => dispatch(responseSocialLogin(res))}
-            onFailure={res => dispatch(responseSocialLogin({}))}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
         />
     )
 }
 
 const FacebookIcon = props => {
-    const dispatch = useDispatch()
+
     return (
         <FacebookLogin
         appId={process.env.REACT_APP_FACEBOOK_APP_ID}
         autoLoad={false}
         fields="name,email,picture"
-        callback={res => dispatch(responseSocialLogin(res))}
+        callback={res => console.log(res)}
         render={
             renderProps => (<SocialIcon
             network='facebook'

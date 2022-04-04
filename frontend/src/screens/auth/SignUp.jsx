@@ -32,7 +32,7 @@ export default function SignUp({setSignUp, dispatch}) {
         <>
             <div className="col-md-6 mt-auto mt-md-0 bg-dark p-4 text-center">
 
-            <img src="img/JAM_MATE.svg" alt="logo_JAM_MATE" height={80} className={'mb-4'}/>
+            <img src={process.env.REACT_APP_PUBLIC_URL+"/img/JAM_MATE.svg"} alt="logo_JAM_MATE" height={80} className={'mb-4'}/>
 
                 <InputBase
                     type={'text'}

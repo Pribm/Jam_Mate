@@ -8,7 +8,7 @@ const initialState = {
         accesToken : '',
     },
     success: false,
-    errors: {}
+    errors: {},
 }
 
 const AuthReducer = (state = initialState, { type, payload }) => {

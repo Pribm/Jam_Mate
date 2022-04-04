@@ -4,27 +4,23 @@ import {  thumbnailUrl } from '../../../config/App'
 import { Paper, Typography, CircularProgress, Avatar, Button } from '@mui/material';
 import { MdOutlineAddAPhoto } from 'react-icons/md';
 
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 import { uploadThumbnail } from '../../../store/Actions/User.action';
 
-export default function ProfileInfoCard({userData, setUserData, userDataGlobal}) {
+export default function ProfileInfoCard() {
 
     const [loadThumbnail, setLoadThumbnail] = React.useState(false)
 
     const dispatch = useDispatch()
+    const user = useSelector(state => state.UserReducer.user)
 
     const handleUpload = e => {
         setLoadThumbnail(true)
         let formData = new FormData()
         formData.append('file', e.target.files[0])
 
-        dispatch(uploadThumbnail(formData)).then(res => {
-            setLoadThumbnail(false)
-            if(typeof res !== 'undefined'){
-                setUserData({...userData, user: {...userData.user, profile_image: res, profile_image_is_custom: 1}})
-            }
-        })
+        dispatch(uploadThumbnail(formData)).then(() => setLoadThumbnail(false))
 
     }
 
@@ -39,9 +35,9 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
                
                <div className="position-relative">
                     {
-                        (userData.user.profile_image) ?
+                        (user.profile_image) ?
                         <>
-                        <img src={thumbnailUrl(userData.user)} className='rounded-full my-2' style={{width: '100px', height: '100px', objectFit: 'cover'}}/>
+                        <img alt='profile_image' src={thumbnailUrl(user)} className='rounded-full my-2' style={{width: '100px', height: '100px', objectFit: 'cover'}}/>
                         
                         {(loadThumbnail === true) && <CircularProgress sx={{position: 'absolute', top: '50%', right: '50%', translate: '50% -50%'}}/>}
                         </>
@@ -54,7 +50,7 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
                </div>
 
                <Typography variant='h6' color={'primary'} className='my-2'>
-                   {userDataGlobal.user.name}
+                   {user.name}
                 </Typography>
            </div>
        </div>
@@ -76,7 +72,7 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
                <div className="d-flex justify-content-between">
                    <div className="d-flex flex-column align-items-center">
                        <Typography variant='h4'>
-                            {userDataGlobal.total_following}
+                            {user.total_following}
                        </Typography>
                        <Typography variant='h7'>
                             Following
@@ -87,7 +83,7 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
 
                    <div className="d-flex flex-column align-items-center">
                        <Typography variant='h4'>
-                            {userDataGlobal.total_followers}
+                            {user.total_followers}
                        </Typography>
                        <Typography variant='h7'>
                             Followers
@@ -98,7 +94,7 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
 
                    <div className="d-flex flex-column align-items-center">
                        <Typography variant='h4'>
-                            {userDataGlobal.total_posts}
+                            {user.total_posts}
                        </Typography>
                        <Typography variant='h7'>
                             Posts
@@ -115,7 +111,7 @@ export default function ProfileInfoCard({userData, setUserData, userDataGlobal})
                 </Typography>
                 
                 <Typography variant='p'>
-                    {userDataGlobal.user.bio}
+                    {user.bio}
                 </Typography>
             </div>
        </div>

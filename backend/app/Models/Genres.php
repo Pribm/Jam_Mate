@@ -11,6 +11,8 @@ class Genres extends Model
     protected $table = 'genres';
     protected $guarded = ['id'];
 
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
+
     public function bands()
     {
         return $this->belongsToMany(Band::class, 'band_music_genres', 'band_id', 'genre_id');

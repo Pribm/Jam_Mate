@@ -52,7 +52,7 @@ export const uploadThumbnail = thumbImage => dispatch => {
             dispatch(changeAlert({open: true, class: 'error', msg: res.data.error}))
             return
         }
-        dispatch(changeUser({user: {profile_image: res.data, profile_image_is_custom: 1}}))
+        dispatch(changeUser({profile_image: res.data, profile_image_is_custom: 1}))
         return res.data
     })
 }

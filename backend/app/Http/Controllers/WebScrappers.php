@@ -14,19 +14,24 @@ class WebScrappers extends Controller
     public function getGenres() {
 
         $response = Http::withOptions(['verify' => false])->withToken(env('SPOTIFY_API_TOKEN'))->get('https://api.spotify.com/v1/recommendations/available-genre-seeds');
-        $genres = json_decode($response)->genres;
+        
+        $response = json_decode($response);
 
+        if(isset($response->genres)){
+            $genres = $response->genres;
 
-
-        if(Genres::count() === 0){
-            foreach ($genres as $genre) {
-                Genres::create([
-                    'name' => $genre,
-                ]);
+            if(Genres::count() === 0){
+                foreach ($genres as $genre) {
+                    Genres::create([
+                        'name' => $genre,
+                    ]);
+                }
+            }else{
+                return response()->json(['message' => 'The genres already seeded']);
             }
-        }else{
-            return response()->json(['message' => 'The genres already seeded']);
-        }
+        }  
+        
+        return $response->error->message;
     }
 
     public function getInstruments() {

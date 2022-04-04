@@ -4,8 +4,6 @@ const initialState = {
     user: {
         
     },
-    instruments: [],
-    genres: [],
     selectedUser: {
 
     }
@@ -17,16 +15,13 @@ const userReducer = (state = initialState, { type, payload }) => {
     case actionTypes.CHANGE:
         return {
             ...state,
-            ...payload,
-            user: {
-                ...state.user, ...payload.user
-            }
+            user: {...state.user,...payload}
         }
     
     case actionTypes.SHOW:
         return {
             ...state,
-            selectedUser: payload
+            selectedUser: payload === 'clear' ? {} : payload
         }
 
     default:

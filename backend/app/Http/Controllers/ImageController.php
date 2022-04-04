@@ -41,4 +41,6 @@ class ImageController extends Controller
             return Response::make($thumb, 200, ['Content-Type' => 'image'])->setMaxAge(864000)->setPublic();
         }
     }
+
+    
 }

@@ -25,7 +25,7 @@ export const index = query => dispatch => {
       if(typeof res !== 'undefined'){
         if(res.status === 200){
           changeLoading({open: false})
-          dispatch(indexResponse(res.data.data))
+          dispatch(indexResponse(res.data))
         }
       }
   })

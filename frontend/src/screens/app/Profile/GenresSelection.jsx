@@ -1,22 +1,32 @@
 import { Checkbox, FormControlLabel } from '@mui/material'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { changeGenres } from '../../../store/Actions/Genres.action'
 
-export default function GenresSelection({selectedGenres, setSelectedGenres}) {
+export default function GenresSelection() {
 
+    const dispatch = useDispatch()
     const genres = useSelector(state => state.GenresReducer.genres)
+    const selectedGenres = useSelector(state => state.GenresReducer.selectedGenres)
+    const userGenres = useSelector(state => state.UserReducer.user.music_genres)
+
+    React.useEffect(() => {
+        dispatch(changeGenres(userGenres))
+    }, [])
 
     const genresList = React.useMemo(()=> {
+        
         return genres.map((genre, index) => (
+            
             <React.Fragment key={index}>
                 <FormControlLabel
                 control={<Checkbox
-                    checked={selectedGenres.findIndex(g => g.genre.id === genre.id) !== -1}
+                    checked={selectedGenres.findIndex(g => g.id === genre.id) !== -1}
                     onChange={e => {
                         if(e.currentTarget.checked){
-                            setSelectedGenres(selectedGenres.concat({genre: genre}))
+                            dispatch(changeGenres(selectedGenres.concat(genre)))
                         }else{
-                            setSelectedGenres(selectedGenres.filter(selected => selected.genre !== genre))
+                            dispatch(changeGenres(selectedGenres.filter(g => g.id !== genre.id)))
                         }
                     }}
                 />}

@@ -1,15 +1,11 @@
 import React from "react";
 
-import { Outlet, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import MainNavbar from "./navigation_components/MainNavbar";
 
-
-const ProtectedRoutes = (props) => {
-
+const ProtectedRoutes = () => {
     return (localStorage.getItem('access_token')) ?
-    <MainNavbar>
-        <Outlet/>
-    </MainNavbar>
+    <MainNavbar/>
     : <Navigate to='/'/>
 }
 

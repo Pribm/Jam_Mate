@@ -10,9 +10,15 @@ export const changeInstruments = (payload) => ({
     payload
 })
 
+export const indexResponse = (payload) => ({
+  type: actionTypes.INDEX,
+  payload
+})
+
+
 export const index = data => dispatch => {
     return HttpAuth.get('app/instruments?'+new URLSearchParams(data)).then(res => {
-        dispatch(changeInstruments(res.data))
+        dispatch(indexResponse(res.data))
     })
 }
 

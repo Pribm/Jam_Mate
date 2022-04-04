@@ -10,5 +10,6 @@ class InstrumentCategories extends Model
     use HasFactory;
 
     protected $table = 'instrument_category';
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
     protected $guarded = ['id'];
 }

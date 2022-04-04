@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Password;
+
 class AuthController extends Controller
 {
     public function store(Request $request){
@@ -39,4 +41,5 @@ class AuthController extends Controller
 
         return response()->json(['Error' => 'Error when registering user']);
     }
+
 }

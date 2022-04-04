@@ -139,6 +139,14 @@ svg, g {
     border: solid #000000 1.2px;
 }
 
+.searchBoxResults{
+    cursor: pointer;
+}
+
+.searchBoxResults:hover{
+    background-color: #eee;
+}
+
 .fa-facebook {
     margin-right: 15px;
 }

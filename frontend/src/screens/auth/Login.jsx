@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './Login.css'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import { Forgot } from './Forgot'
 
 export default function Login() {
 
@@ -16,6 +17,7 @@ export default function Login() {
     const success = useSelector(state => state.AuthReducer.success)
 
     const [signUp, setSignUp] = React.useState(false)
+    const [resetPassword, setResetPassword] = React.useState(false)
 
     React.useEffect(() => {
 
@@ -35,10 +37,21 @@ export default function Login() {
                 <div className="container">
                     <div className="row align-items-center min-vh-100">
                         {
-                            !signUp ?
-                            <SignIn credentialsLogin={credentialsLogin} dispatch={dispatch} change={change} credentials={credentials} setSignUp={setSignUp}/>
+                            ! resetPassword ?
+                            
+                                !signUp ?
+                                <SignIn
+                                setResetPassword={setResetPassword}
+                                credentialsLogin={credentialsLogin}
+                                dispatch={dispatch} change={change}
+                                credentials={credentials}
+                                setSignUp={setSignUp}/>
+                                :
+                                <SignUp setSignUp={setSignUp} dispatch={dispatch}/>
                             :
-                            <SignUp setSignUp={setSignUp} dispatch={dispatch}/>
+                            <>
+                                <Forgot setResetPassword={setResetPassword} dispatch={dispatch}/>
+                            </>
                         }
                         <div className="col-md-6">
 

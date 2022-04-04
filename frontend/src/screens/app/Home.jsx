@@ -7,7 +7,7 @@ export default function Home() {
     const navigator = useNavigate()
     return (
         <div className="d-flex flex-column" style={{height: 'calc(100vh - 60px)'}}>
-            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{background: `url('img/home_photo.jpg') no-repeat center center`, backgroundSize: '100% auto'}}>
+            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center" style={{background: `url('${process.env.REACT_APP_PUBLIC_URL}/img/home_photo.jpg') no-repeat center center`, backgroundSize: '100% auto'}}>
                 <Typography variant='h2' className='text-white'>
                 What are you looking for?
                 </Typography>

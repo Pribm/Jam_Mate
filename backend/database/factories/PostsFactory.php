@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 class PostsFactory extends Factory
 {
@@ -12,9 +13,8 @@ class PostsFactory extends Factory
      * @return array
      */
     public function definition()
-    {
+    {   
         return [
-            
             'status' => 1,
             'post' => $this->faker->text(100)
         ];

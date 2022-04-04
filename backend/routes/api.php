@@ -9,6 +9,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\UsersController;
 use App\Services\SocialAccountsService;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'store']);
 
+Route::post('forgot', [ForgotPasswordController::class, 'forgot']);
+Route::post('reset', [ForgotPasswordController::class, 'reset']);
+
 
 
 Route::prefix('app')->group(function () {
@@ -31,6 +35,7 @@ Route::prefix('app')->group(function () {
     Route::put('/user', 'App\Http\Controllers\Api\AppController@update');
 
     Route::apiResource('/band', BandsController::class);
+    Route::post('/band/{upload_field}/{id}', [BandsController::class, 'uploadImage']);
 
     Route::post('/tumbnailUpdate', 'App\Http\Controllers\Api\AppController@uploadUserThumbnail');
 
@@ -41,6 +46,7 @@ Route::prefix('app')->group(function () {
 
 Route::prefix('network')->group(function() {
     Route::get('/users', [UsersController::class, 'index']);
+    Route::get('/seach-user', [UsersController::class, 'search']);
     Route::get('/users/{id}', [UsersController::class, 'show']);
     Route::apiResource('/followers', FollowedByUserController::class)->only(['index']);
     Route::apiResource('/following', IsFollowingUserController::class);

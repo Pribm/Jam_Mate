@@ -1,61 +1,75 @@
-import { Button, Divider, Paper, TextField } from '@mui/material'
+import { Button, CircularProgress, Divider, Paper, TextField } from '@mui/material'
 import React from 'react'
 import { FaTools } from 'react-icons/fa'
 import { MdImage, MdMap, MdPortrait, MdSave } from 'react-icons/md'
-import GenresSelection from '../Profile/GenresSelection'
+import GenresSelection from '../Bands/GenresSelection'
 import { useDispatch } from 'react-redux'
 import { index as fetchGenres } from '../../../store/Actions/Genres.action'
 import { useSelector } from 'react-redux'
-import { change, store } from '../../../store/Actions/Band.action'
+import { change, getBandImage, index, store, uploadImage } from '../../../store/Actions/Band.action'
+import BandCard from './BandCard'
 
 export default function CreateBand() {
 
     const dispatch = useDispatch()
-    const genres = useSelector(state => state.GenresReducer)
+    const user = useSelector(state => state.UserReducer.user)
     const band = useSelector(state => state.BandReducer.band)
-
-    const [selectedGenres, setSelectedGenres] = React.useState(genres.genres)
+    const errors = useSelector(state => state.BandReducer.errors)
+    const bandList = useSelector(state => state.BandReducer.bands)
 
     React.useEffect(() => {
+        dispatch(store())
+        dispatch(index())
         dispatch(fetchGenres())
+
+        return () => dispatch(change('clear'))
     }, [])
 
-    const handlerSave = () => {
-        const formData = new FormData()
-        for (let key in band){
-            formData.append(key, band[key]);
-        }
+    const uploadFile = (e,imageType) => {
+        const file = new FormData()
+        file.append(imageType, e.target.files[0])
+        dispatch(uploadImage(file, imageType, band.id))
+    } 
 
-        dispatch(store(formData))
+    const handleSave = () => {
+        dispatch(store(band)).then(res => console.log(res))
     }
 
   return (
-    <div className="container-fluid px-5 pt-4">
+    <div className='container mt-4 mb-4'>
         <div className="row">
             <div className="col-md-8">
                 <Paper className='p-3'>
                     <div className="row">
                         <div className="col-md-6">
                             <TextField
-                            value={band.name}
-                            onChange={text => dispatch(change({name: text.target.value}))}
+                            value={band.name || ''}
+                            onChange={text => {
+                                errors.name && delete errors.name
+                                dispatch(change({name: text.target.value}))
+                            }}
                             placeholder='Name'
                             label={'Name'}/>
+                            {errors.name && <strong className='text-danger'>{errors.name}</strong>}
                         </div>
                         <div className="col-md-6">
                             <TextField
-                            value={band.email}
-                            onChange={text => dispatch(change({email: text.target.value}))}
+                            value={band.email || ''}
+                            onChange={text => {
+                                errors.email && delete errors.email
+                                dispatch(change({email: text.target.value}))
+                            }}
                             type='email'
                             placeholder='Email'
                             label={'Email'}/>
+                            {errors.email && <strong className='text-danger'>{errors.email}</strong>}
                         </div>
                     </div>
 
                     <div className="row">
                         <div className="col-md-4">
                             <TextField
-                                value={band.facebookUrl}
+                                value={band.facebookUrl || ''}
                                 onChange={text => dispatch(change({facebookUrl: text.target.value}))}
                                 type={'text'}
                                 label='Facebook URL'
@@ -65,7 +79,7 @@ export default function CreateBand() {
 
                         <div className="col-md-4">
                             <TextField
-                                value={band.instagramUrl}
+                                value={band.instagramUrl || ''}
                                 onChange={text => dispatch(change({instagramUrl: text.target.value}))}
                                 type={'text'}
                                 label='Instagram URL'
@@ -75,7 +89,7 @@ export default function CreateBand() {
 
                         <div className="col-md-4">
                             <TextField
-                                value={band.youtubeUrl}
+                                value={band.youtubeUrl || ''}
                                 onChange={text => dispatch(change({youtubeUrl: text.target.value}))}
                                 type={'text'}
                                 label='Youtube URL'
@@ -87,8 +101,11 @@ export default function CreateBand() {
                     <div className="row">
                         <div className="col-md-12">
                             <TextField
-                                value={band.release_text}
-                                onChange={text => dispatch(change({release_text: text.target.value}))}
+                                value={band.release_text || ''}
+                                onChange={text => {
+                                    errors.release_text && delete errors.release_text
+                                    dispatch(change({release_text: text.target.value}))
+                                }}
                                 type={'text'}
                                 label='Release Text'
                                 placeholder='Release Text'
@@ -96,6 +113,7 @@ export default function CreateBand() {
                                 minRows={5}
                                 variant={'filled'}
                             />
+                            {errors.release_text && <strong className='text-danger'>{errors.release_text}</strong>}
                         </div>
                     </div>
 
@@ -111,13 +129,11 @@ export default function CreateBand() {
                             </Button>
                             <div className='band-image-field'
                             onClick={() => document.getElementById('profile_image').click()}
-                            onChange={e => {
-                                dispatch(change({profile_image: e.target.files[0]}))
-                            }}
+                            onChange={(event) => uploadFile(event, 'profile_image')}
                             >
                                 {
                                     band.profile_image ?
-                                    <img src={URL.createObjectURL(band.profile_image)} style={{width: '100%'}} alt='profile_image'/>
+                                    <img src={getBandImage(user.id, band.profile_image, band.id, 'profile_image')}  style={{width: '100%'}} alt='profile_image'/>
                                     :
                                     <MdImage color='#aaa' size={'3rem'}/>
                                 }
@@ -136,13 +152,11 @@ export default function CreateBand() {
                             </Button>
                             <div className='band-image-field'
                             onClick={() => document.getElementById('technical_rider_image').click()}
-                            onChange={e => {
-                                dispatch(change({technical_rider: e.target.files[0]}))
-                            }}
+                            onChange={(event) => uploadFile(event, 'technical_rider_url')}
                             >
                                   {
-                                      band.technical_rider ?
-                                          <img src={URL.createObjectURL(band.technical_rider)} style={{ width: '100%' }} alt='tech_rider'/>
+                                      band.technical_rider_url ?
+                                          <img src={getBandImage(user.id, band.technical_rider_url, band.id, 'technical_rider_url')} style={{ width: '100%' }} alt='tech_rider'/>
                                           :
                                           <MdImage color='#aaa' size={'3rem'} />
                                   }
@@ -161,13 +175,11 @@ export default function CreateBand() {
                             </Button>
                             <div className='band-image-field'
                             onClick={() => document.getElementById('stage_map_image').click()}
-                            onChange={e => {
-                                dispatch(change({stage_map: e.target.files[0]}))
-                            }}
+                            onChange={(event) => uploadFile(event, 'stagemap_url')}
                             >
                                   {
-                                      band.stage_map ?
-                                          <img src={URL.createObjectURL(band.stage_map)} style={{ width: '100%' }} alt='stage_map' />
+                                      band.stagemap_url ?
+                                          <img src={getBandImage(user.id, band.stagemap_url, band.id, 'stagemap_url')} style={{ width: '100%' }}  alt='stagemap'/>
                                           :
                                           <MdImage color='#aaa' size={'3rem'} />
                                   }
@@ -177,12 +189,19 @@ export default function CreateBand() {
                     </div>
                     <Divider className='my-2'/>
                     <div className="row">
-                        <GenresSelection selectedGenres={selectedGenres} setSelectedGenres={setSelectedGenres}/>
+                        {
+                            Object.keys(band).length === 0 ?
+                            <div className='d-flex justify-content-center mt-4'>
+                                <CircularProgress/>
+                            </div>
+                            :
+                            <GenresSelection/>
+                        }
                     </div>
                     <div className="row justify-content-end mt-4">
                         <div className="col-md-4 text-end">
                         <Button
-                        onClick={handlerSave}
+                        onClick={() => handleSave()}
                         sx={{borderRadius: '5px'}}
                         variant={'contained'}
                         startIcon={(<MdSave/>)}>
@@ -193,9 +212,13 @@ export default function CreateBand() {
                 </Paper>
             </div>
             <div className="col-md-4">
-                <Paper className='p-3'>
-
-                </Paper>
+                {
+                    bandList.map((band, index) => (
+                        <React.Fragment key={index}>
+                            <BandCard band={band}/>
+                        </React.Fragment>
+                    ))
+                }
             </div>
         </div>
     </div>

@@ -2,12 +2,16 @@ import { actionTypes } from "../Actions/Instruments.action"
 
 const initialState = {
     instruments: [],
+    selectedInstruments: []
 }
 
-export default (state = initialState, { type, payload }) => {
+const IntrumentsReducer = (state = initialState, { type, payload }) => {
     switch (type) {
 
     case actionTypes.CHANGE:
+        return {...state, selectedInstruments: payload}
+
+    case actionTypes.INDEX:
         if(!payload.message){
             payload = {...state, instruments: [...payload]}
         }
@@ -17,3 +21,5 @@ export default (state = initialState, { type, payload }) => {
         return state
     }
 }
+
+export default IntrumentsReducer

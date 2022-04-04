@@ -1,13 +1,14 @@
 import React from 'react'
-import { InputBase, ButtonBase, Button } from '@mui/material'
+import { InputBase, ButtonBase, Button, Link } from '@mui/material'
 import { MdLogin, MdPassword } from 'react-icons/md'
 import { FaUserCircle } from 'react-icons/fa'
+import { GoogleIcon } from '../../components/SocialIcons'
 
-export default function SignIn({credentials, dispatch, change, credentialsLogin, setSignUp}) {
+export default function SignIn({credentials, dispatch, change, credentialsLogin, setSignUp, setResetPassword}) {
     return (
         <>
             <div className="col-md-6 mt-auto mt-md-0 text-center bg-dark p-4">
-                <img src="img/JAM_MATE.svg" alt="logo_JAM_MATE" height={80} className={'mb-4'}/>
+                <img src={process.env.REACT_APP_PUBLIC_URL+'/img/JAM_MATE.svg'} alt="logo_JAM_MATE" height={80} className={'mb-4'}/>
                 <InputBase
                     value={credentials.email}
                     onChange={text => dispatch(change({ email: text.target.value }))}
@@ -37,7 +38,7 @@ export default function SignIn({credentials, dispatch, change, credentialsLogin,
                 </ButtonBase>
 
                 <div className="d-flex justify-content-center text-white mt-3">
-                    <p>Forgot Password?</p>
+                    <Link className='cursor-pointer' onClick={() => setResetPassword(true)}>Forgot Password?</Link>
                 </div>
 
                 <div className="text-center mt-3">
