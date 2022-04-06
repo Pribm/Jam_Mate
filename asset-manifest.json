@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/Jam_Mate/static/css/main.378e56f1.css",
-    "main.js": "/Jam_Mate/static/js/main.dcc0c947.js",
+    "main.js": "/Jam_Mate/static/js/main.88c2089a.js",
     "static/media/login_player_black.png": "/Jam_Mate/static/media/login_player_black.b5786fa1aac973461bfb.png",
     "static/media/Outfit-Light.ttf": "/Jam_Mate/static/media/Outfit-Light.ad7b6650c095079e24e8.ttf",
     "static/media/Outfit-Regular.ttf": "/Jam_Mate/static/media/Outfit-Regular.8422587fbc9bbf235e30.ttf",
     "static/media/Outfit-Bold.ttf": "/Jam_Mate/static/media/Outfit-Bold.ad38dbc307742e89dcba.ttf",
     "index.html": "/Jam_Mate/index.html",
     "main.378e56f1.css.map": "/Jam_Mate/static/css/main.378e56f1.css.map",
-    "main.dcc0c947.js.map": "/Jam_Mate/static/js/main.dcc0c947.js.map"
+    "main.88c2089a.js.map": "/Jam_Mate/static/js/main.88c2089a.js.map"
   },
   "entrypoints": [
     "static/css/main.378e56f1.css",
-    "static/js/main.dcc0c947.js"
+    "static/js/main.88c2089a.js"
   ]
 }
